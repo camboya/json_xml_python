@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<data>
+    <nombre>Mariano</nombre>
+    <apellido>Bernardi</apellido>
+    <dni>21785225</dni>
+    <edad<40>/edad>
+    <provincia>Neuquen</provincia>
+
+    </Prendas>
+        <prenda>zapatilla>=4</prenda>
+            
+        <prenda>jeans>=5</prenda>
+    </Prendas>
+
+</data>

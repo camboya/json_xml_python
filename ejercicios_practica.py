@@ -15,6 +15,14 @@ __author__ = "Inove Coding School"
 __email__ = "alumnos@inove.com.ar"
 __version__ = "1.1"
 
+import json
+import xml.etree.ElementTree as ET
+import requests
+import matplotlib.pyplot as plt
+import matplotlib.axes
+import prueba.xml
+
+
 
 def ej1():
     # JSON Serialize
@@ -38,6 +46,33 @@ def ej1():
     # Observe el archivo y verifique que se almaceno lo deseado
     pass
 
+    datos = {
+        "nombre": "Mariano",
+        "apellido": "bernardi",
+        "DNI" : "21785225",
+        "edad": 40,
+        "provincia": "Neuquen",
+        "Prendas": [
+                    {
+                     "prenda": "zapatilla", 
+                     "cantidad": 4 
+                    },
+                    {
+                     "prenda": "jeans", 
+                     "cantidad": 5
+                    }
+                    ]
+              }
+    datos_json = json.dumps(datos)
+    print(datos_json)
+
+    with open('datos.json', 'w') as f:
+        json.dump(datos, f)
+        
+
+
+
+
 
 def ej2():
     # JSON Deserialize
@@ -52,6 +87,13 @@ def ej2():
     pass
 
 
+    with open('datos.json', 'r') as file:
+        datos_json = json.load(file)
+    
+    json_string = json.dumps(datos_json, indent=4)
+    print(json_string)
+
+
 def ej3():
     # Ejercicio de XML
     # Basado en la estructura de datos del ejercicio 1,
@@ -60,6 +102,9 @@ def ej3():
     # El objectivo es que armen un archivo XML al menos
     # una vez para que entiendan como funciona.
     pass
+
+   
+    
 
 
 def ej4():
@@ -74,6 +119,15 @@ def ej4():
     # para entender que puede estar mal en el archivo.
     pass
 
+   tree = ET.parse('prueba.xml')
+   root = tree.getroot()
+
+    
+   
+    for child in root:
+        print('tag:', child.tag, 'attr:', child.attrib, 'text:', child.text)
+        for child2 in child:
+            print('tag:', child2.tag, 'attr:', child2.attrib, 'text:', child2.text)
 
 def ej5():
     # Ejercicio de consumo de datos por API
@@ -102,12 +156,32 @@ def ej5():
     # y verifique si los primeros usuarios (mirando la página a ojo)
     # los datos recolectados son correctos.
 
+    response = requests.get(url)
+    json_data = response.json()
+
+    x = [user['userId'] for user in json_data if user['completed'] is True]
+
+    xy_pie = dict.fromkeys(x, 0)
+
+    for i in xy_pie.keys():
+        xy_pie[i] = x.count(int(i))
+
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    
+    ax.pie(xy_pie.values(), labels = xy_pie.keys(), 
+    autopct = '%1.1f%%', startangle = 90)
+    
+    ax.set_title('cantidad de libros terminados por usuario')
+    
+    plt.show()
+
 
 
 if __name__ == '__main__':
     print("Bienvenidos a otra clase de Inove con Python")
-    ej1()
+    # ej1()
     # ej2()
     # ej3()
     # ej4()
-    # ej5()
+    ej5()
